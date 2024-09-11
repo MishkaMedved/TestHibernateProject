@@ -3,7 +3,6 @@ package ru.mixail;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import ru.mixail.model.Test;
 
 
 /**
@@ -11,20 +10,15 @@ import ru.mixail.model.Test;
  */
 public class App {
     public static void main(String[] args) {
-        Configuration configuration = new Configuration().addAnnotatedClass(Test.class);
+        Configuration configuration = new Configuration().addAnnotatedClass().addAnnotatedClass();
 
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
-
-        try {
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory();
+             Session session = sessionFactory.getCurrentSession();) {
             session.beginTransaction();
-
 
 
             session.getTransaction().commit();
 
-        } finally {
-            sessionFactory.close();
         }
 
     }

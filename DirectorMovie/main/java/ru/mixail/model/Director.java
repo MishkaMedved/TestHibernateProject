@@ -1,27 +1,28 @@
 package ru.mixail.model;
 
-
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "test")
-public class Test {
-    // Если бы поле называлось user_id тогда мы воспользовались аннотацией @Column
+@Table(name = "director")
+public class Director {
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Для автоматической генерации id выбираем эту стратегию
+    @Column(name = "director_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
     private String name;
     @Column(name = "age")
     private int age;
+    @OneToMany(mappedBy = "director")
+    private List<Movie> movies;
 
-    public Test(){
+    public Director() {
 
     }
 
-    public Test(String name, int age) {
-        this.id = id;
+    public Director(String name, int age) {
         this.name = name;
         this.age = age;
     }
@@ -50,8 +51,16 @@ public class Test {
         this.age = age;
     }
 
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     @Override
     public String toString() {
-        return this.name + " " + this.age;
+        return name + " " + age;
     }
 }
